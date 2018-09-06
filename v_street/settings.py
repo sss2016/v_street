@@ -1,3 +1,4 @@
+
 """
 Django settings for v_street project.
 
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'v_street.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates'),'appfront/dist'],
+        'DIRS': [os.path.join(BASE_DIR,'templates'),os.path.join(BASE_DIR,'appfront/dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,9 +125,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+
 STATICFILES_DIRS=[
-os.path.join(BASE_DIR, "appfront/dist/static"),
-os.path.join(BASE_DIR,'static')
+os.path.join(BASE_DIR, "appfront/dist/static").replace('\\', '/'),
+os.path.join(BASE_DIR,'static').replace('\\', '/')
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 USER_ID="123"
