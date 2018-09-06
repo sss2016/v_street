@@ -250,7 +250,7 @@ import $ from 'jquery'
 					}
 				    this.the_formData.append("csrfmiddlewaretoken",$('meta[name="csrf_token"]').attr('content'))
 				    // console.log(this.the_formData.get('csrfmiddlewaretoken'))
-				   this.$http.post('http://localhost:8000/'+this.uploadUrl,this.the_formData).then(response => {
+				   this.$http.post('https://www.ktsweb.cn/'+this.uploadUrl,this.the_formData).then(response => {
 				   	console.log(response)
 				   		this.$emit("success",response)
             		// get body data

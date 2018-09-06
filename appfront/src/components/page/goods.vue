@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     getTypes(){
-      this.$http.get('http://localhost:8000/getGoodsTypes').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
         this.list2=this.querySetToArray(response.data)
              // this.list3=response.data;
             // get body data
@@ -109,7 +109,7 @@ export default {
       //   this.$vux.loading.hide()
       //   this.index01 = index
       // }, 1000)
-      this.$http.get('http://localhost:8000/getGoodsList?type_id='+index).then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsList?type_id='+index).then(response => {
              this.list3=response.data;
             // get body data
             // this.someData = response.body;
