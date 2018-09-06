@@ -108,7 +108,7 @@
 <script type="text/javascript">
 	import { XDialog,TransferDomDirective as TransferDom } from 'vux'
 	import { Cell,Card,Group,Checklist,XButton,Divider,XInput,Flexbox, FlexboxItem } from 'vux'
-	import VueTree from '@components/vue-simple-tree/src/components/VueTree.vue'
+	import VueTree from '../vue-simple-tree/src/components/VueTree.vue'
 
 export default {
   directives: {
