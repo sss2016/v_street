@@ -23,6 +23,7 @@ import Shops.Controller.user as User
 # from Shops.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     # path('shop/', getShop),
     path('', Index.showIndex),
     path('getGoodsList',Index.getGoodsList),
