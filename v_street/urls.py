@@ -52,5 +52,6 @@ urlpatterns = [
     path('ShopFilter',Shopping.ShopFilter),
     path('FeedBack',User.FeedBack),
     path('getSwiper',Index.getSwiper),
+    path('getShopDetail',Shopping.getShopDetail),
         
 ]

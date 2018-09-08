@@ -26,6 +26,7 @@ class Shops(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
     door = models.CharField(max_length=100)
+    introduce=models.CharField(max_length=100)
     # Distance=models.FloatField()
 class Users(models.Model):
     # id=models.AutoField()
