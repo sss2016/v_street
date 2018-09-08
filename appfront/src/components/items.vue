@@ -98,7 +98,7 @@ export default {
     },
     changes(value){
       console.log(value)
-        this.$http.post('http://localhost:8000/updateItem',
+        this.$http.post('https://www.ktsweb.cn/updateItem',
         {
             "goods_id":this.goods_id,
             "type":this.value1[0]
@@ -110,7 +110,7 @@ export default {
           });    
     },
     getTypes(){
-      this.$http.get('http://localhost:8000/getGoodsTypes').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
         this.list1=[this.querySetToArray(response.data)]
         console.log(this.list1)
              // this.list3=response.data;
@@ -134,7 +134,7 @@ export default {
     },
     deleteGoods(){
       this.deling=true
-      this.$http.get('http://localhost:8000/deleteGoods?goods_id='+this.goods_id).then(
+      this.$http.get('https://www.ktsweb.cn/deleteGoods?goods_id='+this.goods_id).then(
         response => {
           this.deling=false
           this.$router.replace({path:"goods"})

@@ -1,22 +1,32 @@
 from ..models import Orders
 from ..models import Sales
+from ..models import Goods
 import time
 from django.db import transaction
 from ..models import Shops
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 import json
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from math import radians, cos, sin, asin, sqrt
+
 # columns = Column.objects.all()
 # articles = Article.objects.all()
 
 
 def getShops(request):
 
-	resp=Shops.objects.filter(delete_at=None)
     # cus_list = Article.objects.all()
-	paginator = Paginator(resp, 3)
+	size = request.GET.get('size')
 	page = request.GET.get('page')
+	searchVal = request.GET.get('searchVal')
+	latitude = request.GET.get('latitude')
+	longitude=request.GET.get('longitude')
+	sort_raw = request.GET.get('sort_raw')
+	resp = ShopFilter(searchVal,latitude,longitude,sort_raw)
+	paginator = Paginator(resp, int(size))
+	# resp=Shops.objects.filter(delete_at=None)
 	if page:
 		Shop = paginator.page(page).object_list
 	else:
@@ -95,3 +105,48 @@ def getSaleRecord(ordernum):
 	for x in Sale:
 		result.append(x)
 	return result
+def ShopFilter(searchVal,latitude,longitude,sort_raw):
+	val = searchVal
+	result=None
+	resp = None
+	if val:
+		ids = Goods.objects.filter(delete_at=None,name__contains=val).values_list('shop_id')
+		in_id=[]
+		for id_ in ids:
+			in_id.append(id_[0])
+		resp=Shops.objects.filter(Q(delete_at=None)&Q(name__contains=val) | Q(door__contains=val)|Q(id__in=in_id))
+	else:
+		resp=Shops.objects.filter(delete_at=None)
+	lists=resp
+	sort_raw=int(sort_raw)
+	if sort_raw==0:
+		# 综合排序
+		result=lists.order_by("sales", "initial_price","distribution_price","name")
+	elif sort_raw==1:
+		result=lists.order_by("initial_price")
+	elif sort_raw==2:
+		result=lists.order_by("distribution_price")
+	elif sort_raw==3:
+		result=lists.order_by("sales")
+	elif sort_raw==4:
+		result=lists.order_by("name")
+	return result
+def setDistanceField(QueySet_,latitude,longitude):
+	for qt in QueySet_:
+		qt['Distance']=haversine(float(longitude),float(latitude),float(qt['longitude']),float(qt['latitude']))
+	return QueySet_
+def haversine(lon1, lat1, lon2, lat2): # 经度1，纬度1，经度2，纬度2 （十进制度数）
+    """
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # 将十进制度数转化为弧度
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+ 
+    # haversine公式
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371 # 地球平均半径，单位为公里
+    return c * r * 1000

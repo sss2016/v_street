@@ -129,7 +129,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
 STATICFILES_DIRS=[
 os.path.join(BASE_DIR, "appfront/dist/static").replace('\\', '/'),
-os.path.join(BASE_DIR,'static').replace('\\', '/')
+os.path.join(BASE_DIR, "appfront/dist/"),
+os.path.join(BASE_DIR,'static')
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 USER_ID="123"

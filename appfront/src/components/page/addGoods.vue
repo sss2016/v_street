@@ -107,7 +107,7 @@ export default {
       console.log(value)
     },
     getTypes(){
-      this.$http.get('http://localhost:8000/getGoodsTypes').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
         this.list1=[this.querySetToArray(response.data)]
         console.log(this.list1)
              // this.list3=response.data;

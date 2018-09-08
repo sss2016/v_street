@@ -83,7 +83,7 @@ export default {
     	return newObj
     },
     getGoodsTypes(){
-	    this.$http.get('http://localhost:8000/getGoodsTypes').then(
+	    this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(
 	     respones=>{
 	     	console.log(respones.data)
 	     	this.commonList=this.querySetToArray(respones.data)
@@ -93,7 +93,7 @@ export default {
     }
     ,
     addType(value){
-	    this.$http.post('http://localhost:8000/addType',{
+	    this.$http.post('https://www.ktsweb.cn/addType',{
 	    	name:value,
 	    }).then(
 	     respones=>{
@@ -103,7 +103,7 @@ export default {
 	    })
     },
     deleteType(){
-	    this.$http.post('http://localhost:8000/deleteType',
+	    this.$http.post('https://www.ktsweb.cn/deleteType',
 	    		{type_id:this.checklist001}
 	    ).then(
 	     respones=>{

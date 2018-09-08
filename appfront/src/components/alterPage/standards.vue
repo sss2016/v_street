@@ -195,7 +195,7 @@ export default {
     submitAlter(){
       console.log(this.$route.params.type)
     	if (this.$route.params.type) {
-    		this.$http.post('http://localhost:8000/updateItem',
+    		this.$http.post('https://www.ktsweb.cn/updateItem',
     		{
     				"goods_id":this.$route.params.goods_id,
     				"standards":JSON.stringify(this.treeData)
