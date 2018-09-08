@@ -23,6 +23,10 @@ class Shops(models.Model):
     initial_price = models.DecimalField(max_digits=7,decimal_places=2)
     distribution_price=models.DecimalField(max_digits=7,decimal_places=2)
     sales = models.IntegerField()
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    door = models.CharField(max_length=100)
+    # Distance=models.FloatField()
 class Users(models.Model):
     # id=models.AutoField()
     uuid=models.CharField(max_length=200)
@@ -82,5 +86,17 @@ class Useraddrs(models.Model):
    name=models.CharField(max_length=10)
    tel=models.CharField(max_length=11)
    checked=models.IntegerField()
-
-        
+class Feedback(models.Model):
+   user_id=models.IntegerField()
+   content=models.CharField(max_length=100)
+   contact=models.CharField(max_length=50)
+   create_at=models.DateTimeField(auto_now_add=True)
+   device_model=models.CharField(max_length=100)
+   state = models.IntegerField()
+   device_system=models.CharField(max_length=100)
+   app_version=models.CharField(max_length=100)
+class Swiperdata(models.Model):
+   image_url=models.CharField(max_length=100)
+   nav=models.CharField(max_length=100)
+   state=models.IntegerField()
+   create_at=models.DateTimeField(auto_now_add=True)

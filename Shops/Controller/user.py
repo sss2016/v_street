@@ -1,5 +1,6 @@
 from ..models import Useraddrs
 from ..models import Users
+from ..models import Feedback
 from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
@@ -86,4 +87,12 @@ def setUserInfo(request):
 	req = request.GET
 	user_id = request.session.get('user_id')
 	Users.objects.filter(user_id=user_id).update(avatarUrl=req['avatarUrl'],nickName=req['nickName'])
+	return JsonResponse({"state":0,"msg":"ok"})
+def FeedBack(request):
+	req = request.GET
+	print(req['device_system'])
+	user_id = request.session.get('user_id',0)
+	fb = Feedback(user_id=user_id,content=req['content'],contact=req['contact'],state=0,device_model=req['device_model']
+		,device_system=req['device_system'],app_version=req['app_version'])
+	fb.save()
 	return JsonResponse({"state":0,"msg":"ok"})

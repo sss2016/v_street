@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponse
 from ..models import Goods
+from ..models import Swiperdata
 import json 
 from django.core import serializers
 
@@ -14,3 +15,8 @@ def getGoodsList(request):
 	json_data = json.loads(json_data)
 	return JsonResponse(json_data, safe=False)
 
+def getSwiper(request):
+	resp=Swiperdata.objects.filter(state=1)
+	json_data = serializers.serialize('json', resp)
+	json_data = json.loads(json_data)
+	return JsonResponse(json_data, safe=False)
