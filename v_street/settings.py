@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'v_street.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'HOST':'localhost',
+    'HOST':'www.ktsweb.cn',
     'PORT':'3306',
     'USER':'root',
-    'PASSWORD':'123456',
+    'PASSWORD':'root',
     'NAME': 'v_street',
 }
 }
