@@ -86,7 +86,7 @@ export default {
 	    this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(
 	     respones=>{
 	     	console.log(respones.data)
-	     	this.commonList=this.querySetToArray(respones.data)
+	     	this.commonList=this.querySetToArray(respones.data.json)
 	    },respones=>{
 	    	console.log('error')
 	    })

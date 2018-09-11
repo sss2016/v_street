@@ -163,6 +163,9 @@ export default {
             // this.someData = response.body;
             this.page++;
             this.$vux.loading.hide()
+            if (_this.page >= _this.pageTotal) {
+              this.$refs.scroller[0].disablePullup()
+            }
         }, response => {
             console.log("error");
         });

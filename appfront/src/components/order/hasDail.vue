@@ -163,4 +163,7 @@ function getResult (val) {
     background-size: 100% 100%;
 
   }
+  .vux-tab-wrap{
+    height: 0;
+  }
 </style>

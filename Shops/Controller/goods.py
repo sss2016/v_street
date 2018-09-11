@@ -31,10 +31,10 @@ def getGoodsType(request):
 	json_data = json.loads(json_data)
 	return JsonResponse({'json':json_data,'shop_id':shop_id}, safe=False)
 def addType(request):
-	req = json.loads(request.body) 
+	req = request.GET
 	Type=Menu_Bns(name=req['name'],shop_id=1)
 	Type.save()
-	return JsonResponse({"state":0,"msg":"ok"})
+	return JsonResponse({"state":0,"msg":"ok"},safe=False)
 def deleteType(request):
 	req = json.loads(request.body)
 	now_time=datetime.datetime.now()
