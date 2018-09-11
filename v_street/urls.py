@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path('shop/', getShop),
-    # path('', Index.showIndex),
+    path('', Index.showIndex),
     path('getGoodsList',Index.getGoodsList),
     path('uploadImage',File.upload_image),
     path('addGoods',Goods.addGoods),
@@ -61,6 +61,6 @@ urlpatterns = [
     path('findOrders',Shopping.findOrders),
     path('denyOrder',Shopping.denyOrder),
     path('getMyCount',Shopping.getMyCount),
-    path('',Handle.wechat)
+    # path('',Handle.wechat)
         
 ]
