@@ -93,9 +93,9 @@ export default {
     }
     ,
     addType(value){
-	    this.$http.post('https://www.ktsweb.cn/addType',{
-	    	name:value,
-	    }).then(
+      var formData = new FormData();
+      formData.append('name', value);
+	    this.$http.post('https://www.ktsweb.cn/addType',formData).then(
 	     respones=>{
 	     	this.getGoodsTypes()
 	    },respones=>{
