@@ -20,7 +20,7 @@ import Shops.Controller.file as File
 import Shops.Controller.goods as Goods
 import Shops.Controller.shopping as Shopping
 import Shops.Controller.user as User
-from Shops.Controller.handle import Handle
+import Shops.Controller.handle as Handle
 
 # from Shops.views import index
 urlpatterns = [
