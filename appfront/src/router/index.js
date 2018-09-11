@@ -112,6 +112,22 @@ export default new Router({
         title: 'alterPrice'
       }
     },
+     {
+      path:'/detail',
+      name:'detail',
+      component:resolve=>require(['@/components/order/detail.vue'] , resolve),//懒加载
+       meta: {
+        title: 'detail'
+      }
+    },
+    {
+      path:'/orderSearch',
+      name:'orderSearch',
+      component:resolve=>require(['@/components/order/orderSearch.vue'] , resolve),//懒加载
+       meta: {
+        title: 'orderSearch'
+      }
+    },
 
   ]
 })

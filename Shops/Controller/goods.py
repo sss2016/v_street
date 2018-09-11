@@ -25,10 +25,11 @@ def addGoods(request):
 	Goods.objects.filter(id=good.id).delete()
 	return JsonResponse({"state":1,"msg":"error"})
 def getGoodsType(request):
-	resp=Menu_Bns.objects.filter(shop_id=1,delete_at=None)
+	shop_id=1
+	resp=Menu_Bns.objects.filter(shop_id=shop_id,delete_at=None)
 	json_data = serializers.serialize('json', resp)
 	json_data = json.loads(json_data)
-	return JsonResponse(json_data, safe=False)
+	return JsonResponse({'json':json_data,'shop_id':shop_id}, safe=False)
 def addType(request):
 	req = json.loads(request.body) 
 	Type=Menu_Bns(name=req['name'],shop_id=1)
@@ -71,7 +72,6 @@ def deleteGoods(request):
 def getFrontGoodsByshopId(request):
 	req = request.GET
 	shop_id=req['shop_id']
-	print("shop_id",shop_id)
 	result=[]
 	typeid_name_arrays=Menu_Bns.objects.filter(shop_id=shop_id,delete_at=None).values('id','name')
 	for x in range(len(typeid_name_arrays)):
@@ -91,4 +91,3 @@ def getGoodsByShop_type_Id(shop_id,type_id):
 		
 		json_data.append(arrays[x])
 	return json_data
-	

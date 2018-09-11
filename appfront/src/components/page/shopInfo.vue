@@ -1,14 +1,20 @@
 <template>
   <div>
     <group  label-width="5.5em" label-margin-right="2em" label-align="justify">
-      <cell   is-link> <span slot="title">
-          店铺名称
-      </span> title="店铺名称"</cell>
+      <cell   is-link> 
+        <span slot="title">
+          店铺图片
+      </span>
+        <img src="https://avatar.csdn.net/0/2/6/3_tonydandelion2014.jpg"> 
+    </cell>
+    <cell   is-link title="店铺名称" > 
+      杀马特贵族
+    </cell>
       <cell title="店主" ></cell>
       <cell title="店铺类型" ></cell>
-      <cell title="到期时间" ></cell>
-       <cell title="热度" ></cell>
-       <cell title="成交数" ></cell>
+      <cell title="手机号" is-link>18137094058</cell>
+       <cell title="店铺等级" ></cell>
+       <cell title="认证状态" ></cell>
        
     </group>
     <br>

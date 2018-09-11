@@ -7,7 +7,12 @@ import VueI18n from 'vue-i18n'
 import Vuetree from './components/vue-simple-tree'
 import "font-awesome/css/font-awesome.min.css"
 import $ from 'jquery'
+import  { LoadingPlugin } from 'vux'
+Vue.use(LoadingPlugin)
 
+// 或者umd方式
+// 引入构建的js文件
+// Vue.use(vuxLoadingPlugin)
 Vue.use(Vuetree);
 Vue.use(VueI18n)
 Vue.http.headers.common['X-CSRFToken'] = $('meta[name="csrf_token"]').attr('content')

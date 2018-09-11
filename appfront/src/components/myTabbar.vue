@@ -1,10 +1,10 @@
  <template>
      <tabbar slot="bottom" >
-    <tabbar-item  link="/notDail" badge="2" index="1" :selected="selectTab==1">
+    <tabbar-item  link="/notDail" :badge="notDail>0?notDail+'':''" index="1" :selected="selectTab==1">
       <img slot="icon" src="../assets/订单.png">
       <span slot="label">未处理</span>
     </tabbar-item>
-    <tabbar-item show-dot link="hasDail" index="2" :selected="selectTab==2">
+    <tabbar-item show-dot link="/hasDail" index="2" :selected="selectTab==2">
       <img slot="icon" src="../assets/完成.png">
       <span slot="label">已处理</span>
     </tabbar-item>
@@ -32,7 +32,8 @@ export default {
     props:{
       selectTab:{
          default: 1
-      }
+      },
+      notDail:0
     },
 
   }

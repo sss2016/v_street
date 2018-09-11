@@ -10,6 +10,8 @@ import json
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from math import radians, cos, sin, asin, sqrt
+from django.db.models import Count
+from django.db.models import Sum
 
 # columns = Column.objects.all()
 # articles = Article.objects.all()
@@ -154,3 +156,41 @@ def getShopDetail(request):
 	resp = request.GET
 	resp=Shops.objects.filter(id=resp.get('shop_id')).values()[0]
 	return JsonResponse(resp,safe=False)
+def findOrders(request):
+	req = request.GET
+	search_rule = req['rule']
+	Order_list=Orders.objects.filter(Q(ordernum__contains=search_rule)|Q(user_name__contains=search_rule)|Q(tel__contains=search_rule)).order_by("create_at")
+	json_data = serializers.serialize('json',Order_list)
+	res = json.loads(json_data)
+	return JsonResponse(res,safe=False)
+def getMyOrderByType(request):
+	req = request.GET
+	type_ = req.get('type',0)
+	if int(type_)==-1:
+		resp = Orders.objects.filter(Q(shop_id=1)&~Q(state=0)&Q(delete_at=None))
+	else:
+		resp = Orders.objects.filter(shop_id=1,state = type_,delete_at=None)
+	json_data = serializers.serialize('json', resp)
+	json_data = json.loads(json_data)
+	return JsonResponse(json_data,safe=False)
+def alterOrderState(request):
+	req = request.GET
+	state = req.get('state')
+	ordernum = req.get('ordernum')
+	R = Orders.objects.filter(shop_id=1,ordernum=ordernum,delete_at=None)
+	R.update(state=state)
+	return JsonResponse({"state":state,"msg":"ok"})
+def denyOrder(request):
+	req = request.GET
+	state = req.get('state')
+	ordernum = req.get('ordernum')
+	reason = req.get('reason')
+	R = Orders.objects.filter(shop_id=1,ordernum=ordernum,delete_at=None).update(state=state,reason=reason)
+	return JsonResponse({"state":state,"msg":"ok"})
+def getMyCount(request):
+	shop_id=1
+	res = Orders.objects.filter(Q(shop_id=1)&~Q(state=0)&Q(delete_at=None)).values('shop_id','total')
+	count = res.annotate(num=Sum('total'),Alltotal=Count('shop_id'))
+	# json_data = serializers.serialize('json', count)
+	# json_data = json.loads(json_data)
+	return JsonResponse({"num":count[0]['num'],"Alltotal":count[0]['Alltotal']})

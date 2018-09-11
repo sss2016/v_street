@@ -1,4 +1,5 @@
 from django.db import models
+# from django.contrib.gis.db import models as models_
 
 # Create your models here.
 class Goods(models.Model):
@@ -27,6 +28,8 @@ class Shops(models.Model):
     latitude = models.FloatField()
     door = models.CharField(max_length=100)
     introduce=models.CharField(max_length=100)
+    # pos = models_.GeometryField(srid=4326)
+
     # Distance=models.FloatField()
 class Users(models.Model):
     # id=models.AutoField()
@@ -70,6 +73,7 @@ class Orders(models.Model):
     payway=models.CharField(max_length=10)
     sendway = models.CharField(max_length=10)
     simpleInfo=models.CharField(max_length=200)
+    reason = models.CharField(max_length=300)
 class Sales(models.Model):
     # id=models.AutoField()
     Orders_id=models.CharField(max_length=20)
@@ -100,4 +104,13 @@ class Swiperdata(models.Model):
    image_url=models.CharField(max_length=100)
    nav=models.CharField(max_length=100)
    state=models.IntegerField()
+   create_at=models.DateTimeField(auto_now_add=True)
+class Messages(models.Model):
+   msg_from=models.CharField(max_length=100)
+   msg_to=models.CharField(max_length=100)
+   msg_type=models.IntegerField()
+   islook=models.IntegerField()
+   islink = models.IntegerField()
+   linkto=models.CharField(max_length=400)
+   content=models.CharField(max_length=400)
    create_at=models.DateTimeField(auto_now_add=True)

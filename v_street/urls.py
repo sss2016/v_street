@@ -20,6 +20,8 @@ import Shops.Controller.file as File
 import Shops.Controller.goods as Goods
 import Shops.Controller.shopping as Shopping
 import Shops.Controller.user as User
+from Shops.Controller.handle import Handle
+
 # from Shops.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -54,5 +56,11 @@ urlpatterns = [
     path('FeedBack',User.FeedBack),
     path('getSwiper',Index.getSwiper),
     path('getShopDetail',Shopping.getShopDetail),
+    path('getMyOrderByType',Shopping.getMyOrderByType),
+    path('alterOrderState',Shopping.alterOrderState),
+    path('findOrders',Shopping.findOrders),
+    path('denyOrder',Shopping.denyOrder),
+    path('getMyCount',Shopping.getMyCount),
+    path('wx',Handle.wechat)
         
 ]

@@ -8,8 +8,9 @@
       </tab>
       <swiper v-model="index"  :show-dots="false">
         <swiper-item v-for="item in list2" :key="item.key" >
-            <template v-for="good_item in list3">
-                  <div  class="good_item">
+    <scroller height="-46" lock-x scrollbar-y :use-pullup="true" :pullup-config="pullupConfig2"  ref="scroller" @on-pullup-loading="load2" v-model="scrolleStatus">
+              <div >
+                  <div  class="good_item" v-for="good_item in list3">
                     <router-link :to="{
                       path:'/items',
                       query:{
@@ -17,7 +18,7 @@
                       }
                     }">
                               <div class="photo">
-                                   <img  :src="'/getGoodsImage?goods_id='+good_item.pk" alt="">
+                                   <img  :src="'/getGoodsImage?goods_image='+shop_id+'_'+good_item.pk" alt="">
                               </div>
                             <div class="dec">
                                 <p class="title">{{good_item.fields.name}}</p>
@@ -26,8 +27,13 @@
                             </div>
                     </router-link>
 
-                  </div>
-            </template>
+                </div>
+            <!--    <load-more tip="loading" v-if="page<=pageTotal"></load-more>
+               <load-more   v-else :show-loading="false" tip="没有更多" background-color="#fbf9fe"></load-more> -->
+               <load-more  v-if="list3.length<1" :show-loading="false" :tip="$t('暂无数据')" background-color="#fbf9fe"></load-more>
+            </div>
+          </scroller>
+            
         </swiper-item>
       </swiper>
       
@@ -35,37 +41,43 @@
     </div>
 </template>
 <script>
-import { Tab, TabItem, Sticky, Divider,  Swipeout,Swiper, SwiperItem,SwipeoutButton,SwipeoutItem,Panel } from 'vux'
+import { Tab, TabItem,Scroller,Swipeout,Swiper, SwiperItem,SwipeoutButton,SwipeoutItem,Panel,LoadMore } from 'vux'
 import navFix from "../fix_nav"
-const list = () => [{key:"1",value:'精选'}, {key:"2",value:'美食'}, {key:"3",value:'电影'}, {key:"4",value:'酒店'}, {key:"5",value:'外卖'}]
-
 export default {
   components: {
     Tab,
     TabItem,
-    Sticky,
-    Divider,
     Swiper,
     SwiperItem,
     SwipeoutButton,
     Swipeout,
     navFix,
     Panel,
-    SwipeoutItem
+    SwipeoutItem,
+    LoadMore,
+    Scroller
   },
   data () {
     return {
       disabled: false,
       index01: 0,
-      list2: list(),
+      list2:  [],
       demo2: '美食',
       list3: [],
-      demo3: '收到的消息',
       list4: [],
-      demo4: '即将上映',
       demoDisabled: 'A',
       index: 0,
       type: '1',
+      page:1,
+      pageTotal:2,
+      shop_id:null,
+      pullupConfig2: {
+        content: '上拉加载更多',
+        downContent: '松开进行加载',
+        upContent: '上拉加载更多',
+        loadingContent: '加载中...'
+      },
+      scrolleStatus:{pullupStatus:'default'}
     }
   },
   watch: {
@@ -76,22 +88,43 @@ export default {
   ,
   mounted: function () {
       this.getTypes()
-        this.getGoodsByType(this.list2[this.index].key)
+
   },
   methods: {
+    load2 () {
+      let _this = this
+      // console.log(_this.$refs.scroller[0].donePullup())
+      setTimeout(() => {
+          _this.ToBottom()
+        setTimeout(() => {
+          _this.$refs.scroller[0].donePullup()
+        }, 100)
+        if (_this.page == _this.pageTotal) { // unload plugin
+          setTimeout(() => {
+            _this.$refs.scroller[0].disablePullup()
+          }, 100)
+        }
+      }, 2000)
+      //       // var _this=this
+      this.$nextTick(() => {
+        _this.$refs.scroller[0].reset()
+      })
+    },
     getTypes(){
-      this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
-        this.list2=this.querySetToArray(response.data)
+      this.$http.get('http://localhost:8000/getGoodsTypes').then(response => {
+        this.list2=this.querySetToArray(response.data.json)
+        this.shop_id = response.data.shop_id
              // this.list3=response.data;
             // get body data
             // this.someData = response.body;
-
+        this.getGoodsByType(this.list2[this.index].key)
         }, response => {
             console.log("error");
         });
     },
     querySetToArray(obj){
       var newObj=[]
+
       for( var i=0;i<obj.length;i++){
         newObj.push(
         {
@@ -99,21 +132,37 @@ export default {
           value:obj[i].fields.name
         })
       }
+      if (newObj.length<1) {
+        newObj.push({
+          key:-1,
+          value:"暂无任何分类"
+        })
+      }
       return newObj
     },
+    ToBottom(){
+    this.getGoodsByType(this.list2[this.index].key)
+    },
     getGoodsByType (index) {
-      // this.$vux.loading.show({
-      //   text: 'loading'
-      // })
+      this.$vux.loading.show({
+        text: 'loading'
+      })
       // setTimeout(() => {
       //   this.$vux.loading.hide()
       //   this.index01 = index
       // }, 1000)
-      this.$http.get('https://www.ktsweb.cn/getGoodsList?type_id='+index).then(response => {
-             this.list3=response.data;
+      this.$http.get('http://localhost:8000/getGoodsList?type_id='+index+'&size='+8+'&page='+this.page).then(response => {
+        // https://www.ktsweb.cn
+          var result = JSON.parse(response.data.data);
+          this.pageTotal=response.data.pages
+          for (var i = 0; i < result.length; i++) {
+            this.list3.push(result[i])
+          }
+             // this.list3=response.data;
             // get body data
             // this.someData = response.body;
-
+            this.page++;
+            this.$vux.loading.hide()
         }, response => {
             console.log("error");
         });
