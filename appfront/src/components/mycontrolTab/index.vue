@@ -101,7 +101,7 @@ export default {
   },
   methods:{
     getMyCount(){
-      this.$http.get('http://localhost:8000/getMyCount').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getMyCount').then(response => {
             console.log(response)
             this.orderCount = response.body.num
             this.money = response.body.Alltotal

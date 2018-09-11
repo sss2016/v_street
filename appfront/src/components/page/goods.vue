@@ -111,7 +111,7 @@ export default {
       })
     },
     getTypes(){
-      this.$http.get('http://localhost:8000/getGoodsTypes').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
         this.list2=this.querySetToArray(response.data.json)
         this.shop_id = response.data.shop_id
              // this.list3=response.data;
@@ -151,7 +151,7 @@ export default {
       //   this.$vux.loading.hide()
       //   this.index01 = index
       // }, 1000)
-      this.$http.get('http://localhost:8000/getGoodsList?type_id='+index+'&size='+8+'&page='+this.page).then(response => {
+      this.$http.get('https://www.ktsweb.cn/getGoodsList?type_id='+index+'&size='+8+'&page='+this.page).then(response => {
         // https://www.ktsweb.cn
           var result = JSON.parse(response.data.data);
           this.pageTotal=response.data.pages

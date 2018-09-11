@@ -99,7 +99,7 @@ export default {
       })
     },
     orderStateTo(_ordernum,_state){
-      this.$http.get('http://localhost:8000/alterOrderState?ordernum='+_ordernum+"&state="+_state)
+      this.$http.get('https://www.ktsweb.cn/alterOrderState?ordernum='+_ordernum+"&state="+_state)
       .then(response => {
         console.log(response)
         // this.list2=this.querySetToArray(response.data.json)
@@ -116,7 +116,7 @@ export default {
     }
     ,
     getNewOrders(type){
-      this.$http.get('http://localhost:8000/getMyOrderByType?type='+type).then(response => {
+      this.$http.get('https://www.ktsweb.cn/getMyOrderByType?type='+type).then(response => {
         // this.list2=this.querySetToArray(response.data.json)
         // this.shop_id = response.data.shop_id
              // this.list3=response.data;

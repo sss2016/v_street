@@ -57,7 +57,7 @@ export default {
     },
     findOrders(data){
     	 console.log(data);
-      this.$http.get('http://localhost:8000/findOrders?rule='+this.search).then(response => {
+      this.$http.get('https://www.ktsweb.cn/findOrders?rule='+this.search).then(response => {
         // this.list2=this.querySetToArray(response.data.json)
         // this.shop_id = response.data.shop_id
              // this.list3=response.data;
@@ -73,7 +73,7 @@ export default {
     ,
     orderStateTo(_ordernum,_state){
       // console.log(ordernum,state)
-      this.$http.get('http://localhost:8000/alterOrderState?ordernum='+_ordernum+"&state="+_state).then(response => {
+      this.$http.get('https://www.ktsweb.cn/alterOrderState?ordernum='+_ordernum+"&state="+_state).then(response => {
         // this.list2=this.querySetToArray(response.data.json)
         // this.shop_id = response.data.shop_id
              // this.list3=response.data;

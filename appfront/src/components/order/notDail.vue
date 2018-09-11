@@ -81,7 +81,7 @@ export default {
     DenyOrder(reason){
      var _ordernum=this.curSelOrderNum
      var _state = 5
-      this.$http.get('http://localhost:8000/denyOrder?ordernum='+_ordernum+"&state="+_state+'&reason='+reason).then(response => {
+      this.$http.get('https://www.ktsweb.cn/denyOrder?ordernum='+_ordernum+"&state="+_state+'&reason='+reason).then(response => {
             console.log(response)
         }, response => {
             console.log("error");
@@ -93,7 +93,7 @@ export default {
       this.showPositionValue=true;
     },
     getNewOrders(){
-      this.$http.get('http://localhost:8000/getMyOrderByType?type=0').then(response => {
+      this.$http.get('https://www.ktsweb.cn/getMyOrderByType?type=0').then(response => {
         // this.list2=this.querySetToArray(response.data.json)
         // this.shop_id = response.data.shop_id
              // this.list3=response.data;
@@ -109,7 +109,7 @@ export default {
     ,
     orderStateTo(_ordernum,_state){
       // console.log(ordernum,state)
-      this.$http.get('http://localhost:8000/alterOrderState?ordernum='+_ordernum+"&state="+_state).then(response => {
+      this.$http.get('https://www.ktsweb.cn/alterOrderState?ordernum='+_ordernum+"&state="+_state).then(response => {
             console.log(response)
         }, response => {
             console.log("error");
