@@ -101,7 +101,7 @@ export default {
       // formData.append("csrfmiddlewaretoken",$('meta[name="csrf_token"]').attr('content'))
 	    this.$http.post('https://www.ktsweb.cn/addType',formData).then(
 	     respones=>{
-        if (respones.state==0) {
+        if (respones.body.state==0) {
           this.getGoodsTypes()
         }else{
           this.repeatTip=true
