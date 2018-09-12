@@ -113,7 +113,7 @@ export default {
     deleteType(){
       var formData = new FormData();
       formData.append('type_id', this.checklist001);
-	    this.$http.post('https://www.ktsweb.cn/deleteType').then(
+	    this.$http.post('http://localhost:8000/deleteType',formData).then(
 	     respones=>{
 	     	for (var i = this.commonList.length - 1; i >= 0; i--) {
 	     		if(this.checklist001.indexOf(this.commonList[i].key)>-1){

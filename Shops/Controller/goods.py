@@ -40,7 +40,7 @@ def addType(request):
 		return JsonResponse({"state":0,"msg":"ok"},safe=False)
 	return JsonResponse({"state":1,"msg":"has exist"},safe=False)
 def deleteType(request):
-	req = json.loads(request.body)
+	req = request.POST
 	now_time=datetime.datetime.now()
 	delete_at=now_time.strftime('%Y-%m-%d')
 	Menu_Bns.objects.filter(id__in=req['type_id']).update(delete_at=delete_at)
