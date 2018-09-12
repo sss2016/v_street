@@ -56,7 +56,7 @@ def getGoodsItem(request):
 	json_data = json.loads(json_data)
 	return JsonResponse(json_data, safe=False)
 def updateItem(request):
-	req = json.loads(request.body)
+	req = request.POST
 	goods_id=req['goods_id']
 	resKeys = req.keys()
 	if 'standards' in resKeys:

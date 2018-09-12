@@ -97,13 +97,10 @@ export default {
         })
     },
     changes(value){
-      console.log(value)
-        this.$http.post('https://www.ktsweb.cn/updateItem',
-        {
-            "goods_id":this.goods_id,
-            "type":this.value1[0]
-
-        }).then(response => {
+        var formData = new FormData();
+        formData.append('goods_id',this.goods_id)
+        formData.append('type',this.value1[0])
+        this.$http.post('https://www.ktsweb.cn/updateItem',formData).then(response => {
              console.log("sucess")
           }, response => {
               console.log("error");
@@ -111,8 +108,7 @@ export default {
     },
     getTypes(){
       this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
-        this.list1=[this.querySetToArray(response.data)]
-        console.log(this.list1)
+        this.list1=[this.querySetToArray(response.data.json)]
              // this.list3=response.data;
             // get body data
             // this.someData = response.body;

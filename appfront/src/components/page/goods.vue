@@ -267,8 +267,8 @@ export default {
 }
 .good_item .photo{
   float:left;
-  width:28%;
-  height:100%;
+  width: 80px;
+  height: 80px;
 }
 .vux-slider > .vux-swiper > .vux-swiper-item{
     overflow: auto;
