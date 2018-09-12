@@ -77,11 +77,15 @@ export default {
         upContent: '上拉加载更多',
         loadingContent: '加载中...'
       },
-      scrolleStatus:{pullupStatus:'default'}
+      // scrolleStatus:{pullupStatus:'default'}
     }
   },
   watch: {
   index: function () {
+      this.page=1
+      this.pageTotal=2
+      this.$refs.scroller[0].disablePullup()
+
       this.getGoodsByType(this.list2[this.index].key)
   }
 }
@@ -111,6 +115,7 @@ export default {
       })
     },
     getTypes(){
+
       this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
         this.list2=this.querySetToArray(response.data.json)
         this.shop_id = response.data.shop_id
@@ -144,6 +149,7 @@ export default {
     this.getGoodsByType(this.list2[this.index].key)
     },
     getGoodsByType (index) {
+      // var _this = this
       this.$vux.loading.show({
         text: 'loading'
       })
@@ -158,15 +164,21 @@ export default {
           for (var i = 0; i < result.length; i++) {
             this.list3.push(result[i])
           }
+
              // this.list3=response.data;
             // get body data
             // this.someData = response.body;
             this.page++;
+            console.log(this.pageTotal,this.page)
             this.$vux.loading.hide()
-            if (_this.page >= _this.pageTotal) {
+            if (this.page >= this.pageTotal) {
+              this.$refs.scroller[0].donePullup()
               this.$refs.scroller[0].disablePullup()
+            }else{
+              this.$refs.scroller[0].enablePullup()
             }
         }, response => {
+           this.$vux.loading.hide()
             console.log("error");
         });
     }

@@ -31,10 +31,14 @@ def getGoodsType(request):
 	json_data = json.loads(json_data)
 	return JsonResponse({'json':json_data,'shop_id':shop_id}, safe=False)
 def addType(request):
+	shop_id=1
 	req = request.POST
-	Type=Menu_Bns(name=req['name'],shop_id=1)
-	Type.save()
-	return JsonResponse({"state":0,"msg":"ok"},safe=False)
+	rr = Menu_Bns.objects.filter(shop_id=shop_id,delete_at=None,name=req['name']).values()
+	if len(rr)<1:
+		Type=Menu_Bns(name=req['name'],shop_id=shop_id)
+		Type.save()
+		return JsonResponse({"state":0,"msg":"ok"},safe=False)
+	return JsonResponse({"state":1,"msg":"has exist"},safe=False)
 def deleteType(request):
 	req = json.loads(request.body)
 	now_time=datetime.datetime.now()

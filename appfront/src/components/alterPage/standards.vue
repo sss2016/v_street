@@ -8,6 +8,7 @@
       		@OnEdit="node_edit"
       		@OnDelete="node_delete"
       		></vue-tree>
+          <div v-if="treeData.length<1" style="text-align:center;">暂无数据</div>
     </group>
     <div v-transfer-dom>
       <x-dialog v-model="show" class="dialog-demo mydiy" style="background-color: transparent;">
@@ -35,7 +36,7 @@
       </flexbox>
 	</div>
 
-
+      <toast  v-model="repeatTip" :time="1000" type="cancel">类别重复</toast>
 </template>
 <style scoped lang="less">
 	@import '~vux/src/styles/close';
@@ -107,7 +108,7 @@
 </style>
 <script type="text/javascript">
 	import { XDialog,TransferDomDirective as TransferDom } from 'vux'
-	import { Cell,Card,Group,Checklist,XButton,Divider,XInput,Flexbox, FlexboxItem } from 'vux'
+	import { Cell,Card,Group,Checklist,XButton,Divider,XInput,Flexbox, FlexboxItem,Toast } from 'vux'
 	import VueTree from '../vue-simple-tree/src/components/VueTree.vue'
 
 export default {
@@ -115,9 +116,6 @@ export default {
     TransferDom
   },
   mounted () {
-  	// if(this.$route.params.type){
-
-  	// }
   	if (this.$route.params.treeData) {
   		this.treeData=this.$route.params.treeData
   	}
@@ -128,6 +126,7 @@ export default {
   components: {
     Cell,
     Group,
+    Toast,
     Checklist,
     XButton,
     Divider,
@@ -164,36 +163,65 @@ export default {
     	console.log("编辑节点按钮")
     }
     ,
-    node_delete(){
-    	console.log("删除节点按钮")
+    node_delete(node){
+      
+        if (node.parent_id!=-1) {
+            this.treeData[node.parent_id].children.splice(node.the_id,1);
+        }else{
+            this.treeData.splice(node.the_id,1);
+        }
+        alert("删除成功")
     },
+    repeatJudg(arr,value){
+        for (var i = arr.length - 1; i >= 0; i--) {
+          // console.log(arr[i].label,value)
+          if (arr[i].label==value)
+              return true;
+        }
+        return false
+    }
+    ,
     complete(){
-    	if (this.operate_code) {
-    			    	this.treeData.push(
-			    	{
-			    		parent:-1,
-			    		id:this.treeData.length,
-			    		label:this.rootName,
-			    		children:[]
-
-			    	})
-    	}else{
-    		console.log(this.current_sel)
-    			this.current_sel.children.push(
-    				{
-    					parent:this.current_sel.id,
-    					id:this.current_sel.children.length,
-    					label:this.rootName,
-    					children:[]
-    				}
-    			)
-
+    	if (this.operate_code) {//1为添加规格
+          var isrepeat = this.repeatJudg(this.treeData,this.rootName)
+          if (!isrepeat) 
+      		  this.treeData.push(
+  			    	{
+  			    		parent:-1,
+  			    		id:this.treeData.length,
+  			    		label:this.rootName,
+  			    		children:[]
+  			    	})
+    	}else{//0为添加选项
+          var isrepeat=this.repeatJudg(this.current_sel.children,this.rootName)
+          if (!isrepeat)
+      			this.current_sel.children.push(
+      				{
+      					parent:this.current_sel.id,
+      					id:this.current_sel.children.length,
+      					label:this.rootName,
+      					children:[]
+      				}
+      			)
     	}
-    	this.Allclear()
-
+      this.Allclear()//清空临时承载变量
+      if (isrepeat)this.repeatTip=true
     },
+      ruleTest(){
+          for (var i = 0; i < this.treeData.length; i++) {
+            var res = this.treeData[i].children.length<1
+            if (res) {
+                return false
+            }
+          }
+          return true
+
+      },
     submitAlter(){
-      console.log(this.$route.params.type)
+      if (!this.ruleTest()){
+        alert("有的规格无选项")
+        return
+      }
     	if (this.$route.params.type) {
     		this.$http.post('https://www.ktsweb.cn/updateItem',
     		{
@@ -232,6 +260,7 @@ export default {
     	 labelPosition: '',
     	 commonList: [ 'China', 'Japan', 'America' ],	
     	 current_sel:{},
+       repeatTip:false,
     	 checklist001: [],
     	  checkedIds: [],
             // tree数据

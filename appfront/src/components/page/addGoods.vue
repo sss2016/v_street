@@ -108,8 +108,8 @@ export default {
     },
     getTypes(){
       this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(response => {
-        this.list1=[this.querySetToArray(response.data)]
-        console.log(this.list1)
+        this.list1=[this.querySetToArray(response.data.json)]
+        // console.log(this.list1)
              // this.list3=response.data;
             // get body data
             // this.someData = response.body;

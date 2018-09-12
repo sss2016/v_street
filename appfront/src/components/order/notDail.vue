@@ -135,5 +135,8 @@ export default {
   height: 88%;
   overflow-y: auto;
 }
-
+.area .vux-tab-wrap{
+  height: 0!important;
+  padding-top:11%!important;
+}
 </style>

@@ -34,12 +34,14 @@
       <p style="color:red">确定咩？</p>
       </confirm>
     </div>
+      <toast  v-model="repeatTip" :time="1000" type="cancel">类别重复</toast>
+
 	</div>
 </template>
 <script>
-import { Group, CellBox, Checklist, Cell, Divider, Confirm,XButton,TransferDomDirective as TransferDom } from 'vux'
+import { Group, CellBox, Checklist, Cell, Divider, Confirm,XButton,TransferDomDirective as TransferDom,Toast } from 'vux'
 import _ from 'lodash'
-
+import $ from 'jquery'
 export default {
   mounted () {
     
@@ -54,6 +56,7 @@ export default {
     Cell,
     Divider,
     XButton,
+    Toast,
     CellBox,
     Confirm
   },
@@ -85,7 +88,7 @@ export default {
     getGoodsTypes(){
 	    this.$http.get('https://www.ktsweb.cn/getGoodsTypes').then(
 	     respones=>{
-	     	console.log(respones.data)
+	     	// console.log(respones.data).
 	     	this.commonList=this.querySetToArray(respones.data.json)
 	    },respones=>{
 	    	console.log('error')
@@ -95,9 +98,14 @@ export default {
     addType(value){
       var formData = new FormData();
       formData.append('name', value);
-	    this.$http.post('https://www.ktsweb.cn/addType',formData).then(
+      formData.append("csrfmiddlewaretoken",$('meta[name="csrf_token"]').attr('content'))
+	    this.$http.post('http://localhost:8000/addType',formData).then(
 	     respones=>{
-	     	this.getGoodsTypes()
+        if (respones.state==0) {
+          this.getGoodsTypes()
+        }else{
+          this.repeatTip=true
+        }
 	    },respones=>{
 	    	console.log('error')
 	    })
@@ -133,7 +141,8 @@ export default {
       cp_show:false,
       delete_disable:true,
       inputshow:false,
-      downdelete:false
+      downdelete:false,
+      repeatTip:false
     }
   }
 }

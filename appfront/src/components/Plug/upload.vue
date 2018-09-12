@@ -2,7 +2,7 @@
 		<div class="upload" @click="select_img" :style="'background-image:url('+image_path+')'" >
 			<img src="../../assets/相机.png" >
 			<form>
-				<input type="file" name="" id="upload"  accept="image/*" capture="camera" @change="handleInputChange">
+				<input type="file" name="" id="upload"  accept="image/*"  @change="handleInputChange">
 			</form>
 		</div>
 

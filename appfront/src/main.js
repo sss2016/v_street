@@ -15,6 +15,14 @@ Vue.use(LoadingPlugin)
 // Vue.use(vuxLoadingPlugin)
 Vue.use(Vuetree);
 Vue.use(VueI18n)
+$.ajaxSetup({
+
+dataType: "json",  
+  beforeSend: function(xhr, settings){  
+      var csrftoken = $('meta[name="csrf_token"]').attr('content') 
+      xhr.setRequestHeader("X-CSRFToken", csrftoken);  
+  },
+})
 Vue.http.headers.common['X-CSRFToken'] = $('meta[name="csrf_token"]').attr('content')
 
 Vue.config.productionTip = false

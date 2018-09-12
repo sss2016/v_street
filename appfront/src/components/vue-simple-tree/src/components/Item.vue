@@ -32,8 +32,10 @@
                 @click="$emit('OnAdd',{'parent_id':model.parent,'the_id':model.id})">
                   
                 </span>
-                <span v-if="options.showEdit" :class="options.editClass" @click="$emit('OnEdit')"></span>
-                <span v-if="options.showDelete" :class="options.deleteClass" @click="$emit('OnDelete')" ></span>
+                <span v-if="options.showEdit" :class="options.editClass" 
+                @click="$emit('OnEdit',{'parent_id':model.parent,'the_id':model.id})"></span>
+                <span v-if="options.showDelete" :class="options.deleteClass" 
+                @click="$emit('OnDelete',{'parent_id':model.parent,'the_id':model.id})" ></span>
       </span>
 
     </div>
@@ -48,6 +50,7 @@
         :half="half"
         :state="itemState"
         :key="idx"
+        @OnDelete="$emit('OnDelete',{'parent_id':model.id,'the_id':idx})"
         @handle="emitHandle"
         @child-change="childChange"
       />
@@ -222,7 +225,6 @@
           this.itemState = this.itemState + 1
         }
       },
-
       addChecked () {
         if (this.idsWithParent.indexOf(this.model.id) === -1) {
           this.$set(this.idsWithParent, this.idsWithParent.length, this.model.id)
