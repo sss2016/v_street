@@ -41,9 +41,10 @@ def addType(request):
 	return JsonResponse({"state":1,"msg":"has exist"},safe=False)
 def deleteType(request):
 	req = request.POST
+	arr= json.loads(req['type_id'])
 	now_time=datetime.datetime.now()
 	delete_at=now_time.strftime('%Y-%m-%d')
-	Menu_Bns.objects.filter(id__in=req['type_id']).update(delete_at=delete_at)
+	Menu_Bns.objects.filter(id__in=arr).update(delete_at=delete_at)
 	return JsonResponse({"state":0,"msg":"ok"})
 def getGoodsItem(request):
 	getDatas = request.GET
