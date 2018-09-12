@@ -6,7 +6,7 @@ from django.core import serializers
 import json
 import datetime
 def addGoods(request):
-	user={"id":123,"Shops_id":456}
+	user={"id":123,"Shops_id":1}
 	json_result = request.POST
 	file = request.FILES.get('file')
 	good = Goods(
@@ -19,7 +19,7 @@ def addGoods(request):
 		type=int(json_result.get('type_id'))
 		)
 	good.save()
-	state = my_file_tool.save_image(file,str(user['id'])+"_"+str(user['Shops_id'])+"_"+str(good.id))
+	state = my_file_tool.save_image(file,str(user['Shops_id'])+"_"+str(good.id))
 	if state:
 		return JsonResponse({"state":0,"msg":"ok"})
 	Goods.objects.filter(id=good.id).delete()

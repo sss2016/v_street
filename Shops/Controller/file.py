@@ -11,6 +11,11 @@ def save_image(file,name):
         return 1
 def upload_image():
     pass
+def removeImage(name):
+    path = os.path.join(settings.BASE_DIR, 'static/goods_image', name)
+    if(os.path.exists(path)):
+        os.remove(path)
+    return 1;
 def getGoodsImage(request):
     user={
     "id":123,
