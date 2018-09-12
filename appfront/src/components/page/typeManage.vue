@@ -98,8 +98,8 @@ export default {
     addType(value){
       var formData = new FormData();
       formData.append('name', value);
-      formData.append("csrfmiddlewaretoken",$('meta[name="csrf_token"]').attr('content'))
-	    this.$http.post('http://localhost:8000/addType',formData).then(
+      // formData.append("csrfmiddlewaretoken",$('meta[name="csrf_token"]').attr('content'))
+	    this.$http.post('https://www.ktsweb.cn/addType',formData).then(
 	     respones=>{
         if (respones.state==0) {
           this.getGoodsTypes()
