@@ -42,6 +42,9 @@ def addType(request):
 def deleteType(request):
 	req = request.POST
 	arr= json.loads(req['type_id'])
+	ishave = Goods.objects.filter(type__in=arr,delete_at=None).values()
+	if len(ishave)<1:
+		return JsonResponse({"state":1,"msg":"include goods"})
 	now_time=datetime.datetime.now()
 	delete_at=now_time.strftime('%Y-%m-%d')
 	Menu_Bns.objects.filter(id__in=arr).update(delete_at=delete_at)

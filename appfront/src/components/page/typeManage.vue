@@ -115,6 +115,10 @@ export default {
       formData.append('type_id', JSON.stringify(this.checklist001));
 	    this.$http.post('https://www.ktsweb.cn/deleteType',formData).then(
 	     respones=>{
+        if (respones.body.state==1) {
+            alert("你所删除的类别下有商品")
+          return 
+        }
 	     	for (var i = this.commonList.length - 1; i >= 0; i--) {
 	     		if(this.checklist001.indexOf(this.commonList[i].key)>-1){
 	     			console.log(i)
